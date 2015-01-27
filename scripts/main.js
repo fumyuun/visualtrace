@@ -1,4 +1,4 @@
-require(['parser/parser'], function(Parser) {
+require(['parser/parser', 'parser/parser_osx'], function(Parser, OsxParser) {
 	'use strict'
 
 	var p, inputField, parseButton;
@@ -6,7 +6,7 @@ require(['parser/parser'], function(Parser) {
 	inputField = document.getElementById('parseInput');
 	parseButton = document.getElementById('parseButton');
 
-	p = new Parser('foo');
+	p = new OsxParser('foo');
 
 	parseButton.onclick = function () {
 		p.parse(inputField.value);
