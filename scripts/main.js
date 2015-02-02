@@ -1,4 +1,4 @@
-require(['parser/parser', 'parser/parser_osx'], function(Parser, OsxParser) {
+require(['parser/parser', 'parser/parser_osx', 'graph'], function(Parser, OsxParser, graphViewer) {
 	'use strict'
 
 	var p, inputField, parseButton;
@@ -9,6 +9,8 @@ require(['parser/parser', 'parser/parser_osx'], function(Parser, OsxParser) {
 	p = new OsxParser('foo');
 
 	parseButton.onclick = function () {
-		p.parse(inputField.value);
+		var graph = p.parse(inputField.value);
+		console.log(graph);
+		graphViewer.view(graph);
 	}
 });
