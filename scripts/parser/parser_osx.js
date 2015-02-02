@@ -28,21 +28,27 @@ define(['parser/parser', 'util'], function(Parser, util) {
 				node.depth = hop;
 				node.hostname = tokens[token++];
 				node.ip = tokens[token++];
+				node.name = node.hostname + node.ip;
 				node.latencies = [];
 				for (; token < tokens.length; token+=2) {
 					node.latencies.push(tokens[token]);
 				}
 				me.data.nodes.push(node);
-				if (hop > 1) {
-					me.data.links.push({source: (hop-1), target: hop});
-					me.data.links.push({source: hop, target: (hop-1)});
-				}
 			}
 		});
 
-		console.log(this.data);
+		util.forEach(this.data.nodes, function (dest, i) {
+			if (dest.depth > 1) {
+				util.forEach(me.data.nodes, function (src, j) {
+					if (src.depth == dest.depth - 1) {
+						me.data.links.push({source: parseInt(j), target: parseInt(i)});
+						return;
+					}
+				});
+			}
+		});
 
-		return {};
+		return this.data;
 	}
 
 
