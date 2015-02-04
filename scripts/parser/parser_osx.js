@@ -13,6 +13,7 @@ define(['parser/parser', 'util'], function(Parser, util) {
 
 		this.data.nodes = [];
 		this.data.links = [];
+		this.data.graphs = 1;
 
 		util.forEach(input, function (tokens) {
 			var node = {},
@@ -25,6 +26,7 @@ define(['parser/parser', 'util'], function(Parser, util) {
 					hop++;
 					token++;
 				}
+				node.group = 0;
 				node.depth = hop;
 				node.hostname = tokens[token++];
 				node.ip = tokens[token++];

@@ -70,7 +70,8 @@ define(['util', 'd3.v3.min'], function(util, d3) {
     });
 
     graph.view = function(data) {
-
+        svg.selectAll('*').remove();
+        
         data.nodes.forEach(function(d, i) {
             d.id = i;
         });
