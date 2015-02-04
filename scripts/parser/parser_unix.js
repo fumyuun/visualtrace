@@ -1,11 +1,11 @@
 define(['parser/parser', 'util'], function(Parser, util) {
     'use strict';
 
-	var OsxParser = util.createClass(Parser, function () {
+	var UnixParser = util.createClass(Parser, function () {
 		this.data = {};
 	});
 
-	OsxParser.prototype.parse = function (input) {
+	UnixParser.prototype.parse = function (input) {
 		var hop = 0,
 			me = this;
 
@@ -54,5 +54,5 @@ define(['parser/parser', 'util'], function(Parser, util) {
 	}
 
 
-	return OsxParser;
+	return UnixParser;
 });

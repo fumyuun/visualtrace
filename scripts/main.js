@@ -1,4 +1,4 @@
-require(['util', 'parser/parser', 'parser/parser_osx', 'graph', 'graphUtil'], function(util, Parser, OsxParser, graphViewer, graphUtil) {
+require(['util', 'parser/parser', 'parser/parser_unix', 'graph', 'graphUtil'], function(util, Parser, UnixParser, graphViewer, graphUtil) {
 	'use strict'
 
 	var p, inputField, parseButton, localCounter, clearButton, graph;
@@ -8,7 +8,7 @@ require(['util', 'parser/parser', 'parser/parser_osx', 'graph', 'graphUtil'], fu
 	parseButton = document.getElementById('parseButton');
 	clearButton = document.getElementById('clearButton');
 
-	p = new OsxParser('foo');
+	p = new UnixParser('foo');
 
 	if (localStorage['graph']) {
 		graph = JSON.parse(localStorage['graph']);
