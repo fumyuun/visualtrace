@@ -22,7 +22,7 @@ require(['util', 'parser/parser', 'parser/parser_unix', 'parser/parser_windows',
 
 	setParser(parserSelector.value);
 
-	if (localStorage['graph']) {
+	if (localStorage['graph'] && localStorage['graph'] != '{}') {
 		graph = JSON.parse(localStorage['graph']);
 		localCounter.innerText = graph.graphs;
 		graphViewer.view(graph);
@@ -32,7 +32,7 @@ require(['util', 'parser/parser', 'parser/parser_unix', 'parser/parser_windows',
 		var graph = p.parse(inputField.value),
 			local;
 
-		if (localStorage['graph']) {
+		if (localStorage['graph'] && localStorage['graph'] != '{}') {
 			graph = graphUtil.merge(JSON.parse(localStorage['graph']), graph);
 		}
 		localStorage['graph'] = JSON.stringify(graph);
