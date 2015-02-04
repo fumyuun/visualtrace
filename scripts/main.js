@@ -1,4 +1,5 @@
-require(['util', 'parser/parser', 'parser/parser_unix', 'graph', 'graphUtil'], function(util, Parser, UnixParser, graphViewer, graphUtil) {
+require(['util', 'parser/parser', 'parser/parser_unix', 'parser/parser_windows', 'parser/parser_import', 'graph', 'graphUtil'],
+	function(util, Parser, UnixParser, WindowsParser, ImportParser, graphViewer, graphUtil) {
 	'use strict'
 
 	var p, inputField, parseButton, localCounter, clearButton, exportButton, parserSelector, graph,
@@ -16,8 +17,8 @@ require(['util', 'parser/parser', 'parser/parser_unix', 'graph', 'graphUtil'], f
 	parserSelector = document.getElementById('parserSelector');
 
 	parsers['unix'] = new UnixParser('foo');
-	parsers['windows'] = new UnixParser('foo');
-	parsers['import'] = new UnixParser('foo');
+	parsers['windows'] = new WindowsParser('foo');
+	parsers['import'] = new ImportParser('foo');
 
 	setParser(parserSelector.value);
 
