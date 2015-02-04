@@ -30,10 +30,19 @@
 				</p>
 				<p>
 					<button id = "parseButton" type="button">Parse</button>
+
+					<select id = "parserSelector" name = "parser">
+						<option value="unix">Unix</option>
+						<option value="windows">Windows</option>
+						<option value="import">Import</option>
+					</select>
 				</p>
 				<p>
-					<button id = "clearButton" type ="button">Clear</button>
-					Storage contains <span id="localCounter">0</span> route(s)
+					<button id = "clearButton" type = "button">Clear</button>
+					Storage contains <span id = "localCounter">0</span> route(s)
+				</p>
+				<p>
+					<button id = "exportButton" type = "button">Export</button>
 				</p>
 			</fieldset>
 		</form>

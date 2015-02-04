@@ -1,14 +1,25 @@
 require(['util', 'parser/parser', 'parser/parser_unix', 'graph', 'graphUtil'], function(util, Parser, UnixParser, graphViewer, graphUtil) {
 	'use strict'
 
-	var p, inputField, parseButton, localCounter, clearButton, graph;
+	var p, inputField, parseButton, localCounter, clearButton, exportButton, parserSelector, graph,
+		parsers = {};
+
+	var setParser = function (parser) {
+		p = parsers[parser];
+	}
 
 	localCounter = document.getElementById('localCounter');
 	inputField = document.getElementById('parseInput');
 	parseButton = document.getElementById('parseButton');
 	clearButton = document.getElementById('clearButton');
+	exportButton = document.getElementById('exportButton');
+	parserSelector = document.getElementById('parserSelector');
 
-	p = new UnixParser('foo');
+	parsers['unix'] = new UnixParser('foo');
+	parsers['windows'] = new UnixParser('foo');
+	parsers['import'] = new UnixParser('foo');
+
+	setParser(parserSelector.value);
 
 	if (localStorage['graph']) {
 		graph = JSON.parse(localStorage['graph']);
@@ -30,5 +41,13 @@ require(['util', 'parser/parser', 'parser/parser_unix', 'graph', 'graphUtil'], f
 
 	clearButton.onclick = function () {
 		localStorage.removeItem('graph');
+	}
+
+	exportButton.onclick = function () {
+		inputField.value = localStorage['graph'];
+	}
+
+	parserSelector.onchange = function () {
+		setParser(parserSelector.value);
 	}
 });
