@@ -32,16 +32,22 @@ require(['util', 'parser/parser', 'parser/parser_unix', 'parser/parser_windows',
 		var graph = p.parse(inputField.value),
 			local;
 
+		if (graph.nodes.length == 0) {
+			return;
+		}
+
 		if (localStorage['graph'] && localStorage['graph'] != '{}') {
 			graph = graphUtil.merge(JSON.parse(localStorage['graph']), graph);
 		}
 		localStorage['graph'] = JSON.stringify(graph);
+		localCounter.innerText = graph.graphs;
 
 		graphViewer.view(graph);
 	}
 
 	clearButton.onclick = function () {
 		localStorage.removeItem('graph');
+		localCounter.innerText = '0';
 	}
 
 	exportButton.onclick = function () {
