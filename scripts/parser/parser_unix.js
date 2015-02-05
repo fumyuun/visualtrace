@@ -33,7 +33,9 @@ define(['parser/parser', 'util'], function(Parser, util) {
 				node.name = node.hostname + node.ip;
 				node.latencies = [];
 				for (; token < tokens.length; token+=2) {
-					node.latencies.push(tokens[token]);
+					if (tokens[token] != '*') {
+						node.latencies.push(parseFloat(tokens[token]));
+					}
 				}
 				me.data.nodes.push(node);
 			}
