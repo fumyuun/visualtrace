@@ -35,8 +35,6 @@ define(['util'], function(util) {
 			}
 		}
 
-		console.log(input);
-
 		return input;
 	}
 
