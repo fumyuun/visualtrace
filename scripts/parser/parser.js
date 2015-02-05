@@ -10,10 +10,10 @@ define(['util'], function(util) {
 	}
 
 	Parser.prototype.prepare = function (input) {
+		var i;
 		input = input.split('\n');
 
 		util.forEach(input, function (line, l) {
-			var i;
 			line = line.split(' ');
 			i = 0;
 			while(i < line.length) {
@@ -25,6 +25,17 @@ define(['util'], function(util) {
 			}
 			input[l] = line;
 		});
+
+		i = 0;
+		while (i < input.length) {
+			if (input[i].length == 0) {
+				input.splice(i, 1);
+			} else {
+				++i;
+			}
+		}
+
+		console.log(input);
 
 		return input;
 	}
