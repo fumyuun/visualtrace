@@ -76,11 +76,25 @@ define(['util', 'd3.v3.min'], function(util, d3) {
             d.id = i;
         });
 
+         // build the arrow
+       svg.append("svg:defs").selectAll("marker")
+        .data(["end"])      // Different link/path types can be defined here
+      .enter().append("svg:marker")    // This section adds in the arrows
+        .attr("id", String)
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 15)
+        .attr("refY", -1.5)
+        .attr("markerWidth", 3)
+        .attr("markerHeight", 3)
+        .attr("orient", "auto")
+      .append("svg:path")
+        .attr("d", "M0,-5L10,0L0,5");
+
         link = svg.selectAll('.link')
             .data( data.links )
           .enter().append('line')
             .attr('class', 'link')
-            .attr("marker-end", "url(#end)")
+            .attr("marker-end", "url(#end)")  //add the marker!
             .style("stroke-width", function(d) { return 2; });
            
 
@@ -102,9 +116,9 @@ define(['util', 'd3.v3.min'], function(util, d3) {
             .attr('r', 4)
             .attr('stroke', 'black');
 
-            // add the text 
+    // add the text 
         node.append("text")
-            .attr("x", 50)
+            .attr("x", 5)
             .attr("dy", ".35em")
             .text(function(d) { return d.hostname; });
 
