@@ -12,8 +12,8 @@ define(['util', 'd3.v3.min'], function(util, d3) {
     var color = d3.scale.category10();
     function colorByGroup(d) { return color(group(d)); }
 
-    var width = 960,
-        height = 600;
+    var width = 1280,
+        height = 1024;
 
     var svg = d3.select('#graph')
         .append('svg')
