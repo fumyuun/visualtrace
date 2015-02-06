@@ -49,7 +49,7 @@ define(['util', 'd3.v3.min'], function(util, d3) {
 
     force.on('tick', function() {
         node.attr('transform', function(d) { return 'translate('+d.x+','+d.y+')'; })
-            .attr('clip-path', function(d) { return 'url(#clip-'+d.index+')'; });
+            //.attr('clip-path', function(d) { return 'url(#clip-'+d.index+')'; });
 
         link.attr('x1', function(d) { return d.source.x; })
             .attr('y1', function(d) { return d.source.y; })
