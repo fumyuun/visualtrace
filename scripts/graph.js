@@ -42,9 +42,9 @@ define(['util', 'd3.v3.min'], function(util, d3) {
     }
 
     var force = d3.layout.force()
-        .charge(-2000)
+        .charge(-5000)
         .friction(0.3)
-        .linkDistance(50)
+        .linkDistance(40)
         .size([width, height]);
 
     force.on('tick', function() {
@@ -80,7 +80,9 @@ define(['util', 'd3.v3.min'], function(util, d3) {
             .data( data.links )
           .enter().append('line')
             .attr('class', 'link')
-            .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+            .attr("marker-end", "url(#end)")
+            .style("stroke-width", function(d) { return 2; });
+           
 
         node = svg.selectAll('.node')
             .data( data.nodes )
@@ -90,7 +92,7 @@ define(['util', 'd3.v3.min'], function(util, d3) {
             .call( force.drag );
 
         node.append('circle')
-            .attr('r', 30)
+            .attr('r', 10)
             .attr('fill', colorByGroup)
             .attr('fill-opacity', 0.5)
             .append('title')
@@ -99,6 +101,13 @@ define(['util', 'd3.v3.min'], function(util, d3) {
         node.append('circle')
             .attr('r', 4)
             .attr('stroke', 'black');
+
+            // add the text 
+        node.append("text")
+            .attr("x", 50)
+            .attr("dy", ".35em")
+            .text(function(d) { return d.hostname; });
+
 
         force
             .nodes( data.nodes )
