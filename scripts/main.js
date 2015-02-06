@@ -38,6 +38,7 @@ require(['util', 'parser/parser', 'parser/parser_unix', 'parser/parser_windows',
 
 		if (localStorage['graph'] && localStorage['graph'] != '{}') {
 			graph = graphUtil.merge(JSON.parse(localStorage['graph']), graph);
+			graph = graphUtil.removeDups(graph);
 		}
 		localStorage['graph'] = JSON.stringify(graph);
 		localCounter.innerText = graph.graphs;
