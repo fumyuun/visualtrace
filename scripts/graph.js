@@ -9,8 +9,12 @@ define(['util', 'd3.v3.min'], function(util, d3) {
     function name(d) {return d.name; }
     function group(d) { return d.group; }
 
+    var errorNode = function (d) {
+        return d.hostname == '*';
+    }
+
     var color = d3.scale.category10();
-    function colorByGroup(d) { return color(group(d)); }
+    function colorByGroup(d) { return errorNode(d) ? '#f00' : color(group(d)); }
 
     var width = 1280,
         height = 1024;
@@ -43,8 +47,8 @@ define(['util', 'd3.v3.min'], function(util, d3) {
 
     var force = d3.layout.force()
         .charge(-5000)
-        .friction(0.3)
-        .linkDistance(40)
+        .friction(0.2)
+        .linkDistance(30)
         .size([width, height]);
 
     force.on('tick', function() {
@@ -106,9 +110,9 @@ define(['util', 'd3.v3.min'], function(util, d3) {
             .call( force.drag );
 
         node.append('circle')
-            .attr('r', 10)
+            .attr('r', function (d) { return errorNode(d) ? 20 : 10; })
             .attr('fill', colorByGroup)
-            .attr('fill-opacity', 0.5)
+            .attr('fill-opacity', function (d) {return errorNode(d) ? 1.0 : 0.5; })
             .append('title')
                 .text(function(d) { return d.name; });
 
