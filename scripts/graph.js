@@ -16,8 +16,8 @@ define(['util', 'd3.v3.min'], function(util, d3) {
     var color = d3.scale.category10();
     function colorByGroup(d) { return errorNode(d) ? '#f00' : color(group(d)); }
 
-    var width = 1280,
-        height = 1024;
+    var width = 2000,
+        height = 2000;
 
     var svg = d3.select('#graph')
         .append('svg')
