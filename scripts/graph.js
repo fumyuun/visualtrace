@@ -111,10 +111,10 @@ define(['util', 'd3.v3.min'], function(util, d3) {
             })
 
             .on('mouseover', function(d) {
-                tooltip.innerText = d.source.latencies[0];
+                tooltip.innerText = 'Avg: ' + d.source.avgLatency + ' (min: ' + d.source.minLatency + ', max: ' + d.source.maxLatency + ')';
                 tooltip.style.left = d3.mouse(this)[0] +'px';
                 tooltip.style.top = (d3.mouse(this)[1] + 530) +'px';
-                            });
+            });
 
             node = svg.selectAll('.node')
             .data( data.nodes )

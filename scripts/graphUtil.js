@@ -45,6 +45,15 @@ define(['util'], function(util) {
         });
     }
 
+    graph.fixLatencies = function (g, i, j) {
+        var minmax;
+        g.nodes[i].latencies = g.nodes[i].latencies.concat(g.nodes[j].latencies);
+        minmax = util.minmax(g.nodes[i].latencies);
+        g.nodes[i].minLatency = minmax.min;
+        g.nodes[i].maxLatency = minmax.max;
+        g.nodes[i].avgLatency = util.avarage(g.nodes[i].latencies);
+    }
+
     /**
      * Merge all duplicate non-erroring or LAN nodes into superstates
      */
@@ -58,6 +67,8 @@ define(['util'], function(util) {
                 j = i + 1;
                 while (j < g.nodes.length) {
                     if (g.nodes[i].hostname == g.nodes[j].hostname) {
+                        graph.fixLatencies(g, i, j);
+
                         g.nodes.splice(j, 1);               // remove j
                         graph.swapLinks(g.links, j, i);     // replace all links to/from j with i
                         graph.lowerNextLinks(g.links, j);   // lower all links higher than j with 1
