@@ -58,7 +58,7 @@ To assist in network diagnostics the \emph{visualtrace} tool is designed to bett
 \end{abstract}
 
 \section{Introduction}
-The internet is routed in a highly dynamic fashion. Several tools exist to gather diagnostic information about the chosen route from a certain machine to another, like the Unix tool \emph{traceroute}. The output of this tool is however very rough, textual, and requires some time to understand. This is even more the case when one wants to combine results to come to better conclusions. We propose a tool that shows this output in a more straightforward way and also combines multiple results in an intuitive way to provide better insight in networking issues and bottlenecks. The internet (and specifically routing over it) can very well be visualized as a directed graph.
+The internet is routed in a highly dynamic fashion. Several tools exist to gather diagnostic information about the chosen route from a certain machine to another, like the Unix tool \emph{traceroute}. The output of this tool is however very rough, textual, and requires some time to understand. This is even more the case when one wants to combine results to come to better conclusions. We propose a tool that shows this output in a more straightforward way by using existing data visualization methods and also combines multiple results in an intuitive way to provide better insight in networking issues and bottlenecks. The internet (and specifically routing over it) can very well be visualized as a directed graph.
 
 The tool consists of three parts:
 \begin{itemize}
@@ -68,30 +68,10 @@ The tool consists of three parts:
 \end{itemize}
 
 \section{Parser}
-The parser is very simple but currently not very flexible nor elegant. We only support Unix style output at the moment. It constructs a graph of the structure depicted in the following figure.
-
-\begin{lstlisting}[language=JavaScript]
-graph = {
-  graphs: integer,      // amount of sub graphs
-  nodes: [node, ...],   // list of graph nodes
-  links: [link, ...]    // list of links between nodes
-};
-node = {
-  group: integer,       // sub graph identifier, used to color
-  depth: integer,       // depicting what 'hop' this node is
-  hostname: string,
-  ip: string,
-  name: hostname + ip,
-  latencies: [float, ...] // latency per ping request in ms
-};
-link = {
-  source: integer,      // index of the source node
-  target: integer       // index of the target node
-};
-\end{lstlisting}
+The parser is very simple but currently not very flexible nor elegant. We only support Unix style output at the moment. It constructs a graph of a simple datastructure simply containing a list of nodes (with each node specific information like it's ip address, host name, depth inside the current trace, and latencies), and a list of links between nodes (simply a pair of indices of the connected nodes inside the node list, note that it is a directed graph so the order matters).
 
 \section{Graph preprocessor}
-The graph preprocessor merges multiple graphs into one super-graph, so that we can combine results of multiple traces in one visualization. To do this, we first simply add them together, and after that merge all duplicate nodes\footnote{Do note that not every node is considered here: LAN nodes or unidentified nodes should and will \emph{not} be merged}.
+The graph preprocessor merges multiple graphs into one super-graph, so that we can combine results of multiple traces in one visualization. To do this, we first simply add them together, and after that merge all duplicate nodes\footnote{Do note that not every node is considered here: LAN nodes or unidentified nodes should and will \emph{not} be merged.}.
 
 Currently, since we consider every pair in the graph for duplicity, this is done in an $O(n^2)$ time complexity (with $n$ being the size of the newly constructed supergraph) fashion which is acceptable.
 
