@@ -105,7 +105,6 @@ define(['util', 'd3.v3.min'], function(util, d3) {
                 if (node.latencies.length > 0) {return node.latencies[0];} else {return 2;} 
             })
             .on('mouseover', function(d) {
-                console.log(d.source.latencies[0]);
                 tooltip.innerText = d.source.latencies[0];
                 tooltip.style.left = d3.mouse(this)[0] +'px';
                 tooltip.style.top = (d3.mouse(this)[1] + 530) +'px';
