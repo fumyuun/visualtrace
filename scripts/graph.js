@@ -25,6 +25,7 @@ define(['util', 'd3.v3.min'], function(util, d3) {
         .attr('height', height);
 
     var node, link;
+    var tooltip = document.getElementById('tooltip');
 
     var voronoi = d3.geom.voronoi()
         .x(function(d) { return d.x; })
@@ -98,8 +99,16 @@ define(['util', 'd3.v3.min'], function(util, d3) {
             .data( data.links )
           .enter().append('line')
             .attr('class', 'link')
-            .attr("marker-end", "url(#end)")  //add the marker!
-            .style("stroke-width", function(d) { return 2; });
+            //.attr("marker-end", "url(#end)")  //add the marker!
+            .style("stroke-width", function(d) { 
+                var node = data.nodes[d.source];
+                if (node.latencies.length > 0) {return node.latencies[0];} else {return 2;} 
+            })
+            .on('mouseover', function(d) {
+                console.log(d.source.latencies[0]);
+               // var node = data.nodes[d.source];
+                tooltip.innerText = d.source.latencies[0];
+            });
            
 
         node = svg.selectAll('.node')
