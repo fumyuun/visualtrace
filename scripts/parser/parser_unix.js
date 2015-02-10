@@ -19,6 +19,8 @@ define(['parser/parser', 'util'], function(Parser, util) {
 			var node = {},
 				token = 0,
 				parseNextNode = function () {
+					var minmax;
+
 					node = {};
 					if (parseInt(tokens[token]) == hop + 1) {
 						hop++;
@@ -42,7 +44,10 @@ define(['parser/parser', 'util'], function(Parser, util) {
 							node.latencies.push(parseFloat(tokens[token]));
 						}
 					}
-
+					node.avgLatency = util.avarage(node.latencies);
+					minmax = util.minmax(node.latencies);
+					node.minLatency = minmax.min;
+					node.maxLatency = minmax.max;
 				};
 			if (tokens[token] == 'traceroute' || tokens[token] == 'traceroute:') {
 				// Diagnostics, ignore

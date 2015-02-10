@@ -63,5 +63,27 @@ define(function () {
         return copy;
     };
 
+    util.avarage = function (ar) {
+        var sum = 0;
+        util.forEach(ar, function (v) {
+            sum += v;
+        });
+        return sum / ar.length;
+    }
+
+    util.minmax = function (ar) {
+        var min = ar[0],
+            max = ar[0];
+        util.forEach(ar, function (v) {
+            if (v < min) {
+                min = v;
+            }
+            if (v > max) {
+                max = v;
+            }
+        });
+        return {min: min, max: max};
+    }
+
     return util;
 });
