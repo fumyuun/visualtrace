@@ -68,10 +68,37 @@ The tool consists of three parts:
 \end{itemize}
 
 \section{Parser}
+The parser is very simple but currently not very flexible nor elegant. We only support Unix style output at the moment. It constructs a graph of the structure depicted in the following figure.
+
+\begin{lstlisting}[language=JavaScript]
+graph = {
+  graphs: integer,      // amount of sub graphs
+  nodes: [node, ...],   // list of graph nodes
+  links: [link, ...]    // list of links between nodes
+};
+node = {
+  group: integer,       // sub graph identifier, used to color
+  depth: integer,       // depicting what 'hop' this node is
+  hostname: string,
+  ip: string,
+  name: hostname + ip,
+  latencies: [float, ...] // latency per ping request in ms
+};
+link = {
+  source: integer,      // index of the source node
+  target: integer       // index of the target node
+};
+\end{lstlisting}
 
 \section{Graph preprocessor}
+The graph preprocessor merges multiple graphs into one super-graph, so that we can combine results of multiple traces in one visualization. To do this, we first simply add them together, and after that merge all duplicate nodes. 
+
+Currently, since we consider every pair in the graph for duplicity, this is done in an $O(n^2)$ time complexity (with $n$ being the size of the newly constructed supergraph) fashion which is acceptable.
+
+However this problem could also be tackled in an $O(n \log n)$ solution by constructing a sorted list of all nodes and only checking only up-following pairs.
 
 \section{Graph renderer}
+
 
 \section{Conclusion}
 
