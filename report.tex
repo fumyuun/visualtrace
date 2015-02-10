@@ -54,11 +54,11 @@
 \maketitle
 
 \begin{abstract}
-To assist in network diagnostics the \emph{visualtrace} tool is designed to better visualize the results of the commonly used diagnostic tools \emph{traceroute} and \emph{tracert}.
+To assist in network diagnostics the \emph{visualtrace} tool is designed to graphically visualize the results of the commonly used networking diagnostic tool \emph{traceroute} \textit{or} \emph{tracert}. Tracert shows the path which the packet takes and records the delay time to the destination in an IP network.
 \end{abstract}
 
 \section{Introduction}
-The internet is routed in a highly dynamic fashion. Several tools exist to gather diagnostic information about the chosen route from a certain machine to another, like the Unix tool \emph{traceroute}. The output of this tool is however very rough, textual, and requires some time to understand. This is even more the case when one wants to combine results to come to better conclusions. We propose a tool that shows this output in a more straightforward way by using existing data visualization methods and also combines multiple results in an intuitive way to provide better insight in networking issues and bottlenecks. The internet (and specifically routing over it) can very well be visualized as a directed graph.
+The internet is routed in a highly dynamic fashion. Several tools exist to gather diagnostic information about the chosen route from a certain machine to another, like the Unix tool \emph{traceroute}. The output of this tool is however very rough, textual, and requires some time to understand. Furthermore, the traditional tool does not allow one to combine the different results from traceroute. We propose a tool that shows this output in a more straightforward way by using existing data visualization methods that can also combine multiple results in an intuitive way to provide better insight in the underlying network topology which in turn can be used to assist in solving issues and bottlenecks of the network. The internet (and specifically routing over it) can very well be visualized as a directed graph.
 
 The tool consists of three parts:
 \begin{itemize}
@@ -68,7 +68,7 @@ The tool consists of three parts:
 \end{itemize}
 
 \section{Parser}
-The parser is very simple but currently not very flexible nor elegant. We only support Unix style output at the moment. It constructs a graph of a simple data structure simply containing a list of nodes (with each node specific information like it's ip-address, host name, depth inside the current trace, and latencies), and a list of links between nodes (simply a pair of indices of the connected nodes inside the node list, note that it is a directed graph so the order matters).
+The parser is very simple but currently not very flexible. We only support Unix style output at the moment. It constructs a graph of a simple data structure simply containing a list of nodes (with each node specific information like its IP-address, host name, depth inside the current trace, and latencies), and a list of links between nodes (simply a pair of indices of the connected nodes inside the node list, note that it is a directed graph so the order matters).
 
 \section{Graph preprocessor}
 The graph preprocessor merges multiple graphs into one super-graph, so that we can combine results of multiple traces in one visualization. To do this, we first simply add them together, and after that merge all duplicate nodes\footnote{Do note that not every node is considered here: LAN nodes or unidentified nodes should and will \emph{not} be merged.}.
@@ -81,7 +81,7 @@ However this problem could also be tackled in an $O(n \log n)$ solution by const
 The graph renderer renders our directed graph in a force directed layout. We used the \emph{D3 library}\footnote{D3: Data Driven Documents: http://d3js.org}, and built our code on one of the examples: \emph{Better force layout node selection}\footnote{http://bl.ocks.org/couchand/6420534}. 
 
 \subsection{Visualization characteristics}
-The goal of this project was to make the visualization as easy to use as possible. The force layout technique ensures that the nodes are spread as evenly as possible to avoid clutter. We make problematic nodes (those that did not reply within the time to live, e.g. are denoted by a * as host) visually \emph{pop out} with a bright red color and larger size. We color the links for visual identification as well according to their latencies.
+The goal of this project was to make the visualization as easy to use as possible. The force layout technique ensures that the nodes are spread as evenly as possible to avoid clutter. We make problematic nodes (those that did not reply within the time to live, e.g. are denoted by a * as host) visually \emph{pop out} with a bright red color and larger size. Furthermore the link's stroke width represents the average latency. Links whose latency is undefined is colored in red. Hovering over a link shows the average, minimum and maximum latencies. The nodes in the graph represent the routers on the network and their corresponding IP addresses are set as the titles.
 
 \section{Conclusion}
 The visualtrace tool was constructed to better visualize the otherwise very hard to read information given by traceroute utilities. By using a directed graph where one can freely add traces and using visual pop out with problematic nodes, one can more easily gain insight over the routing of the network, and identify problems.
