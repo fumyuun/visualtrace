@@ -58,7 +58,7 @@ To assist in network diagnostics the \emph{visualtrace} tool is designed to bett
 \end{abstract}
 
 \section{Introduction}
-The internet is routed in a highly dynamic fashion. Several tools exist to gather diagnostic information about the chosen route from a certain machine to another, like the Unix tool \emph{traceroute}. The output of this tool is however very straightforward, textual, and requires some time to understand. This is even more the case when one wants to combine results to come to better conclusions. We propose a tool that shows this output in a more straightforward way and also combines multiple results in an intuitive way to provide better insight in networking issues and bottlenecks.
+The internet is routed in a highly dynamic fashion. Several tools exist to gather diagnostic information about the chosen route from a certain machine to another, like the Unix tool \emph{traceroute}. The output of this tool is however very rough, textual, and requires some time to understand. This is even more the case when one wants to combine results to come to better conclusions. We propose a tool that shows this output in a more straightforward way and also combines multiple results in an intuitive way to provide better insight in networking issues and bottlenecks. The internet (and specifically routing over it) can very well be visualized as a directed graph.
 
 The tool consists of three parts:
 \begin{itemize}
@@ -91,15 +91,19 @@ link = {
 \end{lstlisting}
 
 \section{Graph preprocessor}
-The graph preprocessor merges multiple graphs into one super-graph, so that we can combine results of multiple traces in one visualization. To do this, we first simply add them together, and after that merge all duplicate nodes. 
+The graph preprocessor merges multiple graphs into one super-graph, so that we can combine results of multiple traces in one visualization. To do this, we first simply add them together, and after that merge all duplicate nodes\footnote{Do note that not every node is considered here: LAN nodes or unidentified nodes should and will \emph{not} be merged}.
 
 Currently, since we consider every pair in the graph for duplicity, this is done in an $O(n^2)$ time complexity (with $n$ being the size of the newly constructed supergraph) fashion which is acceptable.
 
 However this problem could also be tackled in an $O(n \log n)$ solution by constructing a sorted list of all nodes and only checking only up-following pairs.
 
 \section{Graph renderer}
+The graph renderer renders our directed graph in a force directed layout. We used the \emph{D3 library}\footnote{D3: Data Driven Documents: http://d3js.org}, and built our code on one of the examples: \emph{Better force layout node selection}\footnote{http://bl.ocks.org/couchand/6420534}. 
 
+\subsection{Visualization characteristics}
+The goal of this project was to make the visualization as easy to use as posible. The force layout technique ensures that the nodes are spread as evenly as possible to avoid clutter. We make problematic nodes (those that did not reply within the time to live, e.g. are denoted by a * as host) visually \emph{popout} with a bright red color and larger size. We color the links for visual identification as well according to their latencies.
 
 \section{Conclusion}
+The visualtrace tool was constructed to beter visualize the otherwise very hard to read information given by traceroute utilities. By using a directed graph where one can freely add traces and using visual popout with problematic nodes, one can more easily gain insight over the routing of the network, and identify problems.
 
 \end{document}
