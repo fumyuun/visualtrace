@@ -104,6 +104,12 @@ define(['util', 'd3.v3.min'], function(util, d3) {
                 var node = data.nodes[d.source];
                 if (node.latencies.length > 0) {return node.latencies[0];} else {return 2;} 
             })
+
+           .style("stroke", function(d) { 
+                var node = data.nodes[d.source];
+                if (node.latencies.length == 0) {return "#f00";} else {return "#999";} 
+            })
+
             .on('mouseover', function(d) {
                 tooltip.innerText = d.source.latencies[0];
                 tooltip.style.left = d3.mouse(this)[0] +'px';
